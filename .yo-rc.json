@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "spo",
+    "version": "1.6.0",
+    "libraryName": "novi-spfx",
+    "libraryId": "342b8eda-2819-4449-b4c0-e218ed25f100",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}

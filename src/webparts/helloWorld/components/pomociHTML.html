@@ -1,0 +1,79 @@
+<div className={ styles.webpartic }>
+
+
+
+    <Toggle label="Enabled and checked" defaultChecked onText="On" offText="Off"  onChange={this.promenilo}/>
+    
+            <div>
+    
+                  <DocumentCard onClickHref='http://bing.com'>
+                <DocumentCardPreview { ...previewProps } />
+                <DocumentCardTitle title='Revenue stream proposal fiscal year 2016 version02.pptx' />
+                <DocumentCardActivity
+                  activity='Created Feb 23, 2016'
+                  people={
+                    [
+                      { name: 'Kat Larrson', profileImageSrc: String(require('./avatar-kat.png')) }
+                    ]
+                  }
+                />
+              </DocumentCard>
+    
+              <img src="https://www.goaugment.io/wp-content/uploads/2016/05/New-Software-Idea-1200x704.jpg" alt="Nema slike" className={styles.naslovnaSlika}/>
+            
+            <h1 style= {{textAlign: 'center'}} className={styles.naslov}>IDEAS</h1>
+            </div>
+            <hr></hr>
+        <button onClick={this.changeVisibleOfFilter} style={{marginLeft: '20px'}}><i className="ms-Icon ms-Icon--FilterSolid" aria-hidden="true"> by Status </i></button>
+            <span style={this.state.visible? {display: 'inline'} : {display: 'none'} }> <button onClick={this.getOpen} className={styles.statusBtn} style={{backgroundColor: 'green', marginLeft: '20px'}}>OPEN</button> <button className={styles.statusBtn} onClick={this.getOngoing} style={{backgroundColor: 'yellow'}}>ON HOLD</button> <button className={styles.statusBtn} onClick={this.getClosed} style={{backgroundColor: 'red'}}>CLOSED</button></span>
+            <hr></hr>
+            
+            {this.state.items.map(item => {
+              console.log('itemara');
+              console.log(item);
+    
+              return (
+    
+                    <article className={styles.article} onClick={() => this.goToItem(item.Id)}>
+                      <h3 className={styles.article__category} style={item.IdeaStatus === 'OPEN'? {textAlign: 'center'}: {textAlign: 'right'}}>{item.IdeaStatus}</h3>
+              <a href={`https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/Lists/Element%20spec/DispForm.aspx?ID=${item.LinkToSpecId}`}>{item.LinkToSpec && <button>Go to element specification based on this idea ({item.LinkToSpec.Title})</button>}</a>
+                      <img src="https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/Lists/Idea/Attachments/8/talicni%20tom.png" alt="No picture for idea" style={{display:'block'}} className={styles.slika}></img>
+                      <small>Created on: {item.Created}</small>
+                      <h5>Created by: {item.Author.Title}</h5>
+                      
+                      <div className= {styles.containerContent}>
+                        <h1 className={styles.article__title} style={{textAlign: 'center'}}>{item.Title}</h1>
+                        <hr></hr>
+                        <p className={styles.article__excerpt} style={{margin:'10px', padding:'10px'}}>{item.Comment1}</p>
+                        
+                        <DocumentCard onClickHref='http://bing.com'>
+                          <DocumentCardPreview { ...previewProps } />
+                          <DocumentCardTitle title= {item.Title} />
+                          <DocumentCardActivity
+                            activity= {item.Created}
+                            people={
+                              [
+                                { name: `${item.Author.Title}`, profileImageSrc: String(require('./avatar-kat.png')) }
+                              ]
+                            }
+                          />
+                        </DocumentCard>
+                      </div>
+                      
+                      
+                    </article>
+    
+                    
+    
+    
+              );
+            })}
+    
+    
+            <hr></hr>
+    
+            <button onClick={this.getItems} disabled={this.state.loading}>{this.state.loading ? 'Loading': 'Refresh'}</button>
+            
+            
+    
+          </div>

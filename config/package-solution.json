@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "novi-spfx-client-side-solution",
+    "id": "342b8eda-2819-4449-b4c0-e218ed25f100",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/novi-spfx.sppkg"
+  }
+}
