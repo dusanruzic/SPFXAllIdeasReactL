@@ -4,16 +4,18 @@ import { IWebparticProps } from './IWebparticProps';
 import SharePointService from '../../../services/SharePoint/SharePointService';
 import { IWebparticState } from './IWebparticState';
 
-import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
-
 import {
   DocumentCard,
   DocumentCardActivity,
   DocumentCardPreview,
   DocumentCardTitle,
+  DocumentCardLocation,
   IDocumentCardPreviewProps,
 } from 'office-ui-fabric-react/lib/DocumentCard';
 
+import { Button, ButtonType, } from 'office-ui-fabric-react';
+
+import { SearchBox, ISearchBoxStyles } from 'office-ui-fabric-react/lib/SearchBox';
 
 
 
@@ -31,7 +33,6 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
     this.goToItem = this.goToItem.bind(this);
     this.returnUserByID = this.returnUserByID.bind(this);
     this.getUsers = this.getUsers.bind(this);
-    this.promenilo = this.promenilo.bind(this);
 
     //set initial state:
     this.state = {
@@ -49,18 +50,17 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
   
   public render(): React.ReactElement<IWebparticProps> {  
 
-    const previewProps: IDocumentCardPreviewProps = {
+/*let previewProps: IDocumentCardPreviewProps = {
       previewImages: [
         {
           previewImageSrc: String(require('./avatar-kat.png')),
-          iconSrc: String(require('./avatar-kat.png')),
           width: 318,
           height: 196,
           accentColor: '#ce4b1f'
         }
       ],
     };
-
+*/
     SharePointService.getListFields('CF70FB14-EE3E-4D16-921A-3449856770E7')
       .then(items => {
         console.log('fields:');
@@ -68,41 +68,102 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
         
       });
 
-      
+      const searchBoxStyles: Partial<ISearchBoxStyles> = { root: {  marginBottom: '30px' } };
+
+// tslint:disable:jsx-no-lambda
      
      
     return (
       
       <div className={ styles.webpartic }>
 
+<div className="ms-Grid" dir="ltr">
+        <div className="ms-Grid-row">
+        <div className="ms-Grid-col ms-sm2 ms-md4 ms-lg6 ms-xl6"> </div>
+          <div className="ms-Grid-col ms-sm10 ms-md8 ms-lg6 ms-xl6">
+
+          
+          <SearchBox
+            styles={searchBoxStyles}
+            placeholder="Search"
+            onEscape={ev => {
+              console.log('Custom onEscape Called');
+            }}
+            onClear={ev => {
+              console.log('Custom onClear Called');
+            }}
+            onChange={(name) => this.getItemsByName(name)}
+            onSearch={newValue => console.log('SearchBox onSearch fired: ' + newValue)}
+          />
+
+</div>
+
+          </div>
+          </div>
+
+      <div style={{textAlign: "center"}}>
+
+      
+      <Button  buttonType={ ButtonType.primary }  title='All' ariaLabel='All'  onClick={this.getItems} >
+        <span>All</span>
+      </Button>
+
+      <Button className={styles.myButtons} buttonType={ ButtonType.normal } title='Open' ariaLabel='Open' style={{marginLeft:"15px"}}  onClick={this.getOpen}>
+        <span>Open</span>
+      </Button>
+
+      <Button className={styles.myButtons} buttonType={ ButtonType.normal } title='On hold' ariaLabel='On hold' style={{marginLeft:"15px"}} onClick={this.getOngoing}>
+        <span>On hold</span>
+      </Button>
+
+      <Button className={styles.myButtons} buttonType={ ButtonType.normal }  title='Close' ariaLabel='Close' style={{marginLeft:"15px"}} onClick={this.getClosed}>
+        <span>Close</span>
+      </Button>
 
 
-<Toggle label="Enabled and checked" defaultChecked onText="On" offText="Off"  onChange={this.promenilo}/>
+      </div>
+      
+      <hr></hr>
 
-        <div>
-
-              
-          <img src="https://www.goaugment.io/wp-content/uploads/2016/05/New-Software-Idea-1200x704.jpg" alt="Nema slike" className={styles.naslovnaSlika}/>
-        
-        <h1 style= {{textAlign: 'center'}} className={styles.naslov}>IDEAS</h1>
-        </div>
-        <hr></hr>
-    <button onClick={this.changeVisibleOfFilter} style={{marginLeft: '20px'}}><i className="ms-Icon ms-Icon--FilterSolid" aria-hidden="true"> by Status </i></button>
-        <span style={this.state.visible? {display: 'inline'} : {display: 'none'} }> <button onClick={this.getOpen} className={styles.statusBtn} style={{backgroundColor: 'green', marginLeft: '20px'}}>OPEN</button> <button className={styles.statusBtn} onClick={this.getOngoing} style={{backgroundColor: 'yellow'}}>ON HOLD</button> <button className={styles.statusBtn} onClick={this.getClosed} style={{backgroundColor: 'red'}}>CLOSED</button></span>
-        <hr></hr>
+        <div className="ms-Grid" dir="ltr">
+        <div className="ms-Grid-row">
         
         {this.state.items.map(item => {
           console.log(item);
+          let previewPropsa: IDocumentCardPreviewProps = {
+            previewImages: [
+              {
+                previewImageSrc: String(require('./avatar-kat.png')),
+                width: 318,
+                height: 156,
+                accentColor: '#ce4b1f'
+              }
+            ],
+          };
+          if (item.AttachmentFiles.length > 0) {
+            previewPropsa.previewImages[0].previewImageSrc = `https://jvspdev.sharepoint.com${item.AttachmentFiles[0].ServerRelativeUrl}`
+             console.log(item.AttachmentFiles[0].ServerRelativeUrl);
+          }
+
+          let createdOn = new Date(item.Created);
+          let formatedDate = `${createdOn.toLocaleString("default", { month: "long" })} ${createdOn.getDay()}, ${createdOn.getFullYear()} at ${createdOn.getHours()}:${createdOn.getMinutes()}:${createdOn.getSeconds()}`;
 
            return (
 
-              <div>
+            
                 
+              <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg6 ms-xl4"  style={{marginBottom:'5px'}}>
+                    
                     <DocumentCard onClickHref='http://bing.com'>
-                      <DocumentCardPreview { ...previewProps } />
+                      <DocumentCardPreview { ...previewPropsa } 
+                      />
+                      <DocumentCardLocation
+                        location= {item.IdeaStatus}
+                        ariaLabel= {item.IdeaStatus}
+                      />
                       <DocumentCardTitle title= {item.Title} />
                       <DocumentCardActivity
-                        activity= {item.Created}
+                        activity= {formatedDate}
                         people={
                           [
                             { name: `${item.Author.Title}`, profileImageSrc: String(require('./avatar-kat.png')) }
@@ -111,11 +172,12 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
                       />
                     </DocumentCard>
 
-                    <hr></hr>
                   </div>
  
           );
         })}
+           </div>
+        </div>
 
       </div>
     );
@@ -205,12 +267,25 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
       });
   }
 
-
-  public promenilo(): void {
-    alert('promenilo se!');
-    console.log('bravo');
+  public prikazialert(): void {
+    alert('uspeo!');
   }
-  
+
+  public getItemsByName(name: string): void {
+    console.log(name);
+    SharePointService.getListItems('CF70FB14-EE3E-4D16-921A-3449856770E7')
+      .then(
+        
+        items => {
+          let ideas = items.value.filter((idea) => idea.Title.toUpperCase().indexOf(name.toUpperCase()) !== -1 );
+          console.log(ideas);
+        console.log('vratio');
+        this.setState({
+          items: ideas,
+        });
+      });
+  }
+
   
 
   
