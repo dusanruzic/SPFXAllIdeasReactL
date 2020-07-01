@@ -133,7 +133,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
           let previewPropsa: IDocumentCardPreviewProps = {
             previewImages: [
               {
-                previewImageSrc: String(require('./avatar-kat.png')),
+                previewImageSrc: 'https://lh3.googleusercontent.com/proxy/c4UYjqsd2AzGDZU6GdY65h-oDwfBQZ18QYStqmEfnDcckG_g1wcqxG1x38MAPEgwgHttj0CJ8hGcod94NvwIpVI7Bb4jEnIbwWb_8ZQ-710l8bFq',
                 width: 318,
                 height: 156,
                 accentColor: '#ce4b1f'
@@ -147,14 +147,14 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
 
           let createdOn = new Date(item.Created);
           let formatedDate = `${createdOn.toLocaleString("default", { month: "long" })} ${createdOn.getDay()}, ${createdOn.getFullYear()} at ${createdOn.getHours()}:${createdOn.getMinutes()}:${createdOn.getSeconds()}`;
+          let hrf = `https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/SitePages/idea${item.Id}.aspx`;
 
            return (
 
-            
                 
               <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg6 ms-xl4"  style={{marginBottom:'5px'}}>
                     
-                    <DocumentCard onClickHref='http://bing.com'>
+                    <DocumentCard onClickHref= {hrf}>
                       <DocumentCardPreview { ...previewPropsa } 
                       />
                       <DocumentCardLocation
@@ -166,7 +166,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
                         activity= {formatedDate}
                         people={
                           [
-                            { name: `${item.Author.Title}`, profileImageSrc: String(require('./avatar-kat.png')) }
+                            { name: `${item.Author.Title}`, profileImageSrc: 'https://lh3.googleusercontent.com/proxy/c4UYjqsd2AzGDZU6GdY65h-oDwfBQZ18QYStqmEfnDcckG_g1wcqxG1x38MAPEgwgHttj0CJ8hGcod94NvwIpVI7Bb4jEnIbwWb_8ZQ-710l8bFq' }
                           ]
                         }
                       />
@@ -243,7 +243,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
 
   public goToItem(itemID: number): void {
     console.log(itemID);
-    window.location.href = `https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/Lists/Idea/DispForm.aspx?ID=${itemID}`;
+    //window.location.href = `https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/Lists/Idea/DispForm.aspx?ID=${itemID}`;
   }
 
   public returnUserByID(itemID: string): string {
