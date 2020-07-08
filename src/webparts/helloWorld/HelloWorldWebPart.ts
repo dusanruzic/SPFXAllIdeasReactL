@@ -32,18 +32,18 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
 
   public onInit(): Promise<void> {
     return super.onInit().then(() =>{
+      let ideaListId = 'CF70FB14-EE3E-4D16-921A-3449856770E7';
 
-
-      SharePointService.setup(this.context, Environment.type);
+      SharePointService.setup(this.context, Environment.type, ideaListId);
       SharePointService.getLists().then(lists => {
         //console.log('prikaz svih lista');
         //console.log(lists);
 
       });
 
-      SharePointService.getListItems('CF70FB14-EE3E-4D16-921A-3449856770E7')
+      SharePointService.getListItems(SharePointService.ideaListID)
       .then(items => {
-        console.log(items);
+        //console.log(items);
       });
 
 

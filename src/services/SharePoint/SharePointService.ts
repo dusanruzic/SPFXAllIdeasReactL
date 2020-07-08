@@ -8,10 +8,12 @@ import { IListItemCollection } from "./IListItem";
 export class SharePointServiceManager {
     public context: WebPartContext;
     public environmentType: EnvironmentType;
+    public ideaListID: string;
 
-    public setup(context: WebPartContext, environmentType: EnvironmentType): void {
+    public setup(context: WebPartContext, environmentType: EnvironmentType, ideaListID: string): void {
         this.context = context;
         this.environmentType = environmentType;
+        this.ideaListID = ideaListID;
     }
 
     public get(relativeEndpointUrl: string): Promise<any> {
@@ -35,7 +37,7 @@ export class SharePointServiceManager {
     }
 
     public getListItemsFIltered(listId: string, filterString: string) : Promise<IListItemCollection>{
-        console.log(`/_api/lists/getbyid('${listId}')/items?$filter=IdeaStatus eq '${filterString}'`);
+        //console.log(`/_api/lists/getbyid('${listId}')/items?$filter=IdeaStatus eq '${filterString}'`);
         return this.get(`/_api/lists/getbyid('${listId}')/items?$select=*,Author/Name,Author/Title,LinkToSpec/Title&$expand=Author/Id,LinkToSpec/Id,AttachmentFiles&$filter=IdeaStatus eq '${filterString}'`);
     }
 

@@ -61,10 +61,10 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
       ],
     };
 */
-    SharePointService.getListFields('CF70FB14-EE3E-4D16-921A-3449856770E7')
+    SharePointService.getListFields(SharePointService.ideaListID)
       .then(items => {
-        console.log('fields:');
-        console.log(items);
+        //console.log('fields:');
+        //console.log(items);
         
       });
 
@@ -87,10 +87,10 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
             styles={searchBoxStyles}
             placeholder="Search"
             onEscape={ev => {
-              console.log('Custom onEscape Called');
+              //console.log('Custom onEscape Called');
             }}
             onClear={ev => {
-              console.log('Custom onClear Called');
+              //console.log('Custom onClear Called');
             }}
             onChange={(name) => this.getItemsByName(name)}
             onSearch={newValue => console.log('SearchBox onSearch fired: ' + newValue)}
@@ -129,7 +129,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
         <div className="ms-Grid-row">
         
         {this.state.items.map(item => {
-          console.log(item);
+          //console.log(item);
           let previewPropsa: IDocumentCardPreviewProps = {
             previewImages: [
               {
@@ -142,12 +142,13 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
           };
           if (item.AttachmentFiles.length > 0) {
             previewPropsa.previewImages[0].previewImageSrc = `https://jvspdev.sharepoint.com${item.AttachmentFiles[0].ServerRelativeUrl}`
-             console.log(item.AttachmentFiles[0].ServerRelativeUrl);
+             //console.log(item.AttachmentFiles[0].ServerRelativeUrl);
           }
 
           let createdOn = new Date(item.Created);
-          let formatedDate = `${createdOn.toLocaleString("default", { month: "long" })} ${createdOn.getDay()}, ${createdOn.getFullYear()} at ${createdOn.getHours()}:${createdOn.getMinutes()}:${createdOn.getSeconds()}`;
-          let hrf = `https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/SitePages/idea${item.Id}.aspx`;
+          //let formatedDate = `${createdOn.toLocaleString("default", { month: "long" })} ${createdOn.getDay()}, ${createdOn.getFullYear()} at ${createdOn.getHours()}:${createdOn.getMinutes()}:${createdOn.getSeconds()}`;
+          let formatedDate = `${createdOn.toLocaleString("default", { month: "long" })} ${createdOn.getDate()}, ${createdOn.getFullYear()} at ${createdOn.toLocaleTimeString()}`;
+          let hrf = `${SharePointService.context.pageContext.web.absoluteUrl}/SitePages/idea${item.Id}.aspx`;
 
            return (
 
@@ -186,9 +187,9 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
 
   public getItems(): void {
     this.setState({loading: true});
-    SharePointService.getListItems('CF70FB14-EE3E-4D16-921A-3449856770E7')
+    SharePointService.getListItems(SharePointService.ideaListID)
       .then(items => {
-        console.log('vratio');
+        //console.log('vratio');
         this.setState({
           items: items.value,
           loading: false
@@ -198,10 +199,10 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
 
   public getOpen(): void {
     this.setState({loading: true});
-    SharePointService.getListItemsFIltered('CF70FB14-EE3E-4D16-921A-3449856770E7', 'OPEN')
+    SharePointService.getListItemsFIltered(SharePointService.ideaListID, 'OPEN')
       .then(items => {
-        console.log(items.value);
-        console.log('vratio');
+        //console.log(items.value);
+        //console.log('vratio');
         this.setState({
           items: items.value,
           loading: false
@@ -211,10 +212,10 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
 
   public getOngoing(): void {
     this.setState({loading: true});
-    SharePointService.getListItemsFIltered('CF70FB14-EE3E-4D16-921A-3449856770E7', 'ON HOLD')
+    SharePointService.getListItemsFIltered(SharePointService.ideaListID, 'ON HOLD')
       .then(items => {
-        console.log(items.value);
-        console.log('vratio');
+        //console.log(items.value);
+        //console.log('vratio');
         this.setState({
           items: items.value,
           loading: false
@@ -224,7 +225,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
 
   public getClosed(): void {
     this.setState({loading: true});
-    SharePointService.getListItemsFIltered('CF70FB14-EE3E-4D16-921A-3449856770E7', 'SWITCH TO SPEC (CLOSED)')
+    SharePointService.getListItemsFIltered(SharePointService.ideaListID, 'SWITCH TO SPEC (CLOSED)')
       .then(items => {
         this.setState({
           items: items.value,
@@ -242,13 +243,13 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
   }
 
   public goToItem(itemID: number): void {
-    console.log(itemID);
+    //console.log(itemID);
     //window.location.href = `https://jvspdev.sharepoint.com/sites/AtlasCorpoProject/Lists/Idea/DispForm.aspx?ID=${itemID}`;
   }
 
   public returnUserByID(itemID: string): string {
-    console.log(itemID);
-    console.log('proba');
+    //console.log(itemID);
+    //console.log('proba');
     SharePointService.getUserByID(itemID)
     .then(item => {
       return item;
@@ -260,7 +261,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
   public getUsers(): void {
     SharePointService.getUsers()
       .then(users => {
-        console.log(users.value[1]);
+        //console.log(users.value[1]);
         this.setState({
           users: users.value,
         });
@@ -272,14 +273,14 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
   }
 
   public getItemsByName(name: string): void {
-    console.log(name);
-    SharePointService.getListItems('CF70FB14-EE3E-4D16-921A-3449856770E7')
+    //console.log(name);
+    SharePointService.getListItems(SharePointService.ideaListID)
       .then(
         
         items => {
-          let ideas = items.value.filter((idea) => idea.Title.toUpperCase().indexOf(name.toUpperCase()) !== -1 );
-          console.log(ideas);
-        console.log('vratio');
+          let ideas = items.value.filter((idea) => idea.Title.toUpperCase().indexOf(name.toUpperCase()) !== -1 || idea.Comment1.toUpperCase().indexOf(name.toUpperCase()) !== -1 );
+          //console.log(ideas);
+        //console.log('vratio');
         this.setState({
           items: ideas,
         });
