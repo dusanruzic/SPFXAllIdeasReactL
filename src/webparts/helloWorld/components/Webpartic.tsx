@@ -133,7 +133,7 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
           let previewPropsa: IDocumentCardPreviewProps = {
             previewImages: [
               {
-                previewImageSrc: 'https://lh3.googleusercontent.com/proxy/c4UYjqsd2AzGDZU6GdY65h-oDwfBQZ18QYStqmEfnDcckG_g1wcqxG1x38MAPEgwgHttj0CJ8hGcod94NvwIpVI7Bb4jEnIbwWb_8ZQ-710l8bFq',
+                previewImageSrc: 'https://edvac.sharepoint.com/sites/VIN_AVT_PCO_ElementWikiproject/SiteAssets/SitePages/VIN_AVT_PCO_ElementWikiproject/24687-AC.jpg',
                 width: 318,
                 height: 156,
                 accentColor: '#ce4b1f'
@@ -141,7 +141,8 @@ export default class Webpartic extends React.Component<IWebparticProps, IWebpart
             ],
           };
           if (item.AttachmentFiles.length > 0) {
-            previewPropsa.previewImages[0].previewImageSrc = `https://jvspdev.sharepoint.com${item.AttachmentFiles[0].ServerRelativeUrl}`
+            //previewPropsa.previewImages[0].previewImageSrc = `https://jvspdev.sharepoint.com${item.AttachmentFiles[0].ServerRelativeUrl}`
+            previewPropsa.previewImages[0].previewImageSrc = `https://edvac.sharepoint.com${item.AttachmentFiles[0].ServerRelativeUrl}`
              //console.log(item.AttachmentFiles[0].ServerRelativeUrl);
           }
 

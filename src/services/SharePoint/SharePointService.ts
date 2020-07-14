@@ -33,21 +33,21 @@ export class SharePointServiceManager {
     }
 
     public getListItems(listId: string, selectedFields?: string[]) : Promise<IListItemCollection>{
-        return this.get(`/_api/lists/getbyid('${listId}')/items?$select=*,Author/Name,Author/Title,LinkToSpec/Title&$expand=Author/Id,LinkToSpec/Id,AttachmentFiles`);
+        return this.get(`/_api/lists/getbytitle('${listId}')/items?$select=*,Author/Name,Author/Title,LinkToSpec/Title&$expand=Author/Id,LinkToSpec/Id,AttachmentFiles`);
     }
 
     public getListItemsFIltered(listId: string, filterString: string) : Promise<IListItemCollection>{
         //console.log(`/_api/lists/getbyid('${listId}')/items?$filter=IdeaStatus eq '${filterString}'`);
-        return this.get(`/_api/lists/getbyid('${listId}')/items?$select=*,Author/Name,Author/Title,LinkToSpec/Title&$expand=Author/Id,LinkToSpec/Id,AttachmentFiles&$filter=IdeaStatus eq '${filterString}'`);
+        return this.get(`/_api/lists/getbytitle('${listId}')/items?$select=*,Author/Name,Author/Title,LinkToSpec/Title&$expand=Author/Id,LinkToSpec/Id,AttachmentFiles&$filter=IdeaStatus eq '${filterString}'`);
     }
 
     public getListFields(listId: string, showHiddenField: boolean = false): Promise<IListFieldCollection>{
-        return this.get(`/_api/lists/getbyid('${listId}')/fields${!showHiddenField ? '?$filter=Hidden eq false' : ''}`);
+        return this.get(`/_api/lists/getbytitle('${listId}')/fields${!showHiddenField ? '?$filter=Hidden eq false' : ''}`);
     }
 
     
     public getUserByID(userID: string): Promise<any> {
-        return this.get(`/_api/web/getuserbyid(${userID})`);
+        return this.get(`/_api/web/getuserbytitle(${userID})`);
     }
 
     
